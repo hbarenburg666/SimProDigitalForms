@@ -2,7 +2,12 @@
 Phase 2, step 1 — prove we can CREATE a form via the API.
 
 Copies an existing form: GET nested JSON, strip server-assigned identifiers,
-rename to "{name} - API TEST", POST to /forms as a brand-new form.
+rename to "{name} - Harris Barenburg Draft - API TEST", POST to /forms as a
+brand-new form.
+
+Naming rule: everything this project creates in the shared ILS tenant must carry
+"Harris Barenburg" and "Draft" in the title, so it can never be mistaken for a
+controlled QMS document. Enforced by name_for_created_form() below.
 
 The source form is never modified. Dry-run by default.
 
@@ -34,6 +39,32 @@ ID_KEYS = {
 # Nested containers we recurse into.
 CHILD_KEYS = ("sections", "sheets", "screens", "entries", "entry_values",
               "conditions", "operations")
+
+
+# Required substrings in the title of anything we create in the shared tenant.
+REQUIRED_TITLE_PARTS = ("Harris Barenburg", "Draft")
+
+
+def name_for_created_form(source_name: str, tag: str = "API TEST") -> str:
+    """Build a compliant title, without duplicating parts already present."""
+    name = source_name
+    for part in REQUIRED_TITLE_PARTS:
+        if part.lower() not in name.lower():
+            name = f"{name} - {part}"
+    if tag and tag.lower() not in name.lower():
+        name = f"{name} - {tag}"
+    return name
+
+
+def assert_compliant_title(name: str) -> None:
+    """Hard stop before any POST: refuse to create an unattributed form."""
+    missing = [p for p in REQUIRED_TITLE_PARTS if p.lower() not in name.lower()]
+    if missing:
+        raise SystemExit(
+            f"Refusing to create form {name!r}: title must contain {missing}. "
+            "Everything created in the shared ILS tenant must be attributed and "
+            "marked as a draft."
+        )
 
 
 def strip_ids(node, depth=0, stats=None):
@@ -70,7 +101,8 @@ def main() -> int:
 
     stats: dict[str, int] = {}
     payload = strip_ids(copy.deepcopy(original), stats=stats)
-    payload["name"] = f"{name} - API TEST"
+    payload["name"] = name_for_created_form(name)
+    assert_compliant_title(payload["name"])
 
     PAYLOAD_PATH.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"\n  stripped server-assigned keys: {stats or 'none found'}")
