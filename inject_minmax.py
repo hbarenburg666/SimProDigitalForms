@@ -43,10 +43,28 @@ SHEET_TYPE_ID = 11
 # Specs transcribed from "1_1 API 4000 PM final.pdf".
 #   p.7 3.0 POSITIVE ION MODE TEST  -> FWHM 0.6 - 0.8 amu
 #   p.6 1.0 GAS PRESSURE           -> Gas 1 / Gas 2 100 - 105 psi
+#
+# `mask` controls decimal places. Every decimal in the tenant carries mask "0"
+# (zero places), which is why existing forms only accept whole numbers. The
+# valid vocabulary is unknown, so each probe entry carries a different mask and
+# the same min/max. Typing 0.75 into each reveals which masks permit decimals;
+# typing 0.9 into one that accepts decimals reveals whether max is enforced.
 TEST_ENTRIES = [
-    {"label": "Q1 FWHM m/z 906.673 (spec 0.6-0.8 amu)", "minimum": 0.6, "maximum": 0.8},
-    {"label": "Q3 FWHM m/z 906.673 (spec 0.6-0.8 amu)", "minimum": 0.6, "maximum": 0.8},
-    {"label": "Gas 1 / Gas 2 pressure psi (spec 100-105)", "minimum": 100.0, "maximum": 105.0},
+    {"label": "A) mask=None  - type 0.75 (spec 0.6-0.8)", "minimum": 0.6, "maximum": 0.8,
+     "mask": None},
+    {"label": "B) mask='1'   - type 0.75 (spec 0.6-0.8)", "minimum": 0.6, "maximum": 0.8,
+     "mask": "1"},
+    {"label": "C) mask='2'   - type 0.75 (spec 0.6-0.8)", "minimum": 0.6, "maximum": 0.8,
+     "mask": "2"},
+    {"label": "D) mask='3'   - type 0.75 (spec 0.6-0.8)", "minimum": 0.6, "maximum": 0.8,
+     "mask": "3"},
+    {"label": "E) mask='0.0' - type 0.75 (spec 0.6-0.8)", "minimum": 0.6, "maximum": 0.8,
+     "mask": "0.0"},
+    {"label": "F) mask='0.00'- type 0.75 (spec 0.6-0.8)", "minimum": 0.6, "maximum": 0.8,
+     "mask": "0.00"},
+    # Real spec from the API 4000 document, p.6 GAS PRESSURE.
+    {"label": "G) Gas 1 / Gas 2 psi - type 102 (spec 100-105)", "minimum": 100.0,
+     "maximum": 105.0, "mask": "1"},
 ]
 
 
@@ -60,7 +78,7 @@ def build_entry(spec: dict, position: int) -> dict:
         "required": False,
         "minimum": spec["minimum"],
         "maximum": spec["maximum"],
-        "mask": "0.0",
+        "mask": spec.get("mask"),
         "visible": True,
         "read_only": False,
         "pdf_visibility": 0,
@@ -113,9 +131,9 @@ def main() -> int:
         build_section(len(form.get("sections", [])))
     ]
     # `status` must be present AND must differ from the current status, or the
-    # API rejects the update. "published" is also what makes the form reachable
-    # on the mobile app, which is the whole point of this experiment.
-    payload["status"] = "published" if form["status"] != "published" else "pending"
+    # API rejects the update. Only new/pending are permitted (see
+    # SimproClient.ALLOWED_WRITE_STATUSES), so ping-pong between them.
+    payload["status"] = "pending" if form["status"] != "pending" else "new"
     print(f"  status transition: {form['status']} -> {payload['status']}")
 
     out = HERE / f"minmax_payload_{form_id}.json"
