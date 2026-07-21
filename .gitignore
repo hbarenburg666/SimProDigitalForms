@@ -29,3 +29,5 @@ copy_result.json
 # Source QMS documents — company controlled, not for GitHub
 pdfs/
 dump_*.json
+minmax_payload_*.json
+minmax_result_*.json
