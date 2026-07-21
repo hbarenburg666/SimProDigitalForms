@@ -216,10 +216,28 @@ class SimproClient:
     def get_form(self, form_id: str | int, fmt: str = "nested") -> dict:
         return self.get(f"/forms/{form_id}", params={"format": fmt})
 
+    # Harris's standing rule: automated writes may only ever leave a form in
+    # 'new' or 'pending'. 'published' makes it live to service engineers in the
+    # shared ILS tenant and must be a deliberate human action in the UI.
+    # Note: POST /forms/{id} REQUIRES a status and rejects a no-op transition,
+    # so every update necessarily moves the form — hence the guard.
+    ALLOWED_WRITE_STATUSES = {"new", "pending"}
+
+    def _check_status(self, nested_json: dict) -> None:
+        status = nested_json.get("status")
+        if status not in self.ALLOWED_WRITE_STATUSES:
+            raise SimproError(
+                f"Refusing to write form with status {status!r}. "
+                f"Allowed: {sorted(self.ALLOWED_WRITE_STATUSES)}. "
+                "Publishing/retiring is a human action in the UI."
+            )
+
     def update_form(self, form_id: str | int, nested_json: dict) -> dict:
+        self._check_status(nested_json)
         return self.post(f"/forms/{form_id}", nested_json)
 
     def create_form(self, nested_json: dict) -> dict:
+        self._check_status(nested_json)
         return self.post("/forms", nested_json)
 
     def list_submissions(self, form_id: str | int, **filters: Any) -> list[dict]:
