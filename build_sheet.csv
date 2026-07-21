@@ -1,0 +1,119 @@
+﻿Page,#,Field name,Type,Decimal places,Required,Fillable
+Page 1 - Cover,1,INNOVATIVE LAB SERVICES LLC - API 4000 LC/MS/MS SYSTEM - PLANNED MAINTENANCE PROCEDURE,Static text (label only - not fillable),,,
+Page 1 - Cover,2,Instrument Serial #,Text,,Yes,Yes
+Page 1 - Cover,3,Instrument Name / INV #,Text,,Yes,Yes
+Page 2 - Customer & Sign Off,1,ANALYST SOFTWARE LC/MS/MS SYSTEM,Static text (label only - not fillable),,,
+Page 2 - Customer & Sign Off,2,Customer Site,Text,,Yes,Yes
+Page 2 - Customer & Sign Off,3,Serial Number,Text,,Yes,Yes
+Page 2 - Customer & Sign Off,4,Customer Name,Text,,Yes,Yes
+Page 2 - Customer & Sign Off,5,Service Engineer,Text,,Yes,Yes
+Page 2 - Customer & Sign Off,6,Date,Date,,Yes,Yes
+Page 2 - Customer & Sign Off,7,"All PM tests are run using Chemical Kit P/N 4406127. All Pre and Post tests use the Standard Turbo V Source. Printed copies of all test runs, method files and calibration runs are filed in the instrument IQ/OQ binder with a copy of this procedure.",Static text (label only - not fillable),,,
+Page 2 - Customer & Sign Off,8,SIGN OFF - By signing this form you acknowledge that the planned maintenance was completely performed.,Static text (label only - not fillable),,,
+Page 2 - Customer & Sign Off,9,Customer signature,Signature,,,Yes
+Page 2 - Customer & Sign Off,10,Service Engineer signature,Signature,,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,1,PRE-PM SECTION. Pre-PM tests do not need to pass specifications. Record Pre-PM performance.,Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,2,1.0  VACUUM PRESSURE CHECK,Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,3,Guideline:  CAD = 0  ->  <= 0.8x10-5 torr (0.08 V),Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,4,"Recorded vacuum pressure, CAD = 0",Text,,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,5,Guideline:  CAD = 12  ->  <= 5.5x10-5 torr (+/- 0.3x10-5),Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,6,"Recorded vacuum pressure, CAD = 12",Text,,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,7,2.0  POSITIVE ION MODE TEST - Printouts required. Use 50:1 diluted Standard PPG (2x10-6M). Guideline: 10 Scans MCA.,Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,8,Q1 - m/z 906.673,Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,9,Q1 m/z 906.673 Intensity  (spec >= 2.0x10^7),Text,,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,10,Q1 m/z 906.673 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,11,Q1 - m/z 2242.6,Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,12,Q1 m/z 2242.6 Intensity  (spec >= 1.0x10^6),Text,,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,13,Q1 m/z 2242.6 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,14,Q3 - m/z 906.673,Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,15,Q3 m/z 906.673 Intensity  (spec >= 2.0x10^7),Text,,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,16,Q3 m/z 906.673 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,17,Q3 - m/z 2242.6,Static text (label only - not fillable),,,
+Page 3 - Pre-PM: Vacuum & Positive Ion,18,Q3 m/z 2242.6 Intensity  (spec >= 8.0x10^5),Text,,,Yes
+Page 3 - Pre-PM: Vacuum & Positive Ion,19,Q3 m/z 2242.6 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,1,"3.0  NEGATIVE ION MODE TEST (10 SCANS MCA) - Printouts required. Use PPG 3000 (2x10-4M) negative PPG solution, no dilution required.",Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,2,Q1 - m/z 933.636,Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,3,Q1 m/z 933.636 Intensity  (spec >= 1.1x10^7),Text,,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,4,Q1 m/z 933.636 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,5,Q1 - m/z 2037.4,Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,6,Q1 m/z 2037.4 Intensity  (spec >= 1.0x10^6),Text,,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,7,Q1 m/z 2037.4 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,8,Q3 - m/z 933.636,Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,9,Q3 m/z 933.636 Intensity  (spec >= 9.0x10^6),Text,,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,10,Q3 m/z 933.636 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,11,Q3 - m/z 2037.4 is N/A per the procedure,Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,12,4.0  RESERPINE MS/MS TEST (10 SCANS MCA),Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,13,Use diluted reserpine 6:1 (0.16 pmol/ul). Printouts required.,Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,14,Attenuated m/z 609.3,Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,15,Attenuated m/z 609.3 Intensity  (spec record),Text,,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,16,Attenuated m/z 609.3 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,17,m/z 195.0,Static text (label only - not fillable),,,
+Page 4 - Pre-PM: Negative Ion & Reserpine,18,m/z 195.0 Intensity  (spec record),Text,,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,19,m/z 195.0 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 4 - Pre-PM: Negative Ion & Reserpine,20,MS/MS Transmission Efficiency %  (m/z 195.0 / attenuated m/z 609.3) x 100  (spec >= 10.0),Number (decimal),2,,Yes
+Page 5 - PM Section,1,PM SECTION,Static text (label only - not fillable),,,
+Page 5 - PM Section,2,1. Check operation of the Turbo V ion source heaters,Checkbox,,,Yes
+Page 5 - PM Section,3,2. Check lens voltages (Lens Power Supply module),Checkbox,,,Yes
+Page 5 - PM Section,4,"3. Check RF tuning voltages (Q1 and Q3 QPS AMP module). Only if required, tune QPS AMPs.",Checkbox,,,Yes
+Page 5 - PM Section,5,4. Check operation of the instrument cooling fans,Checkbox,,,Yes
+Page 5 - PM Section,6,5. Check operation of the detector. Record CEM voltage:,Number (decimal),1,,Yes
+Page 5 - PM Section,7,SHUTDOWN AND PERFORM MAINTENANCE / CLEANING,Static text (label only - not fillable),,,
+Page 5 - PM Section,8,6. Check AC input voltage. Record AC voltage:,Number (decimal),1,,Yes
+Page 5 - PM Section,9,"7. Inspect gas tubing for breakage (CAD gas, interface gas tubes, etc)",Checkbox,,,Yes
+Page 5 - PM Section,10,8. Remove and clean the curtain plate,Checkbox,,,Yes
+Page 5 - PM Section,11,"9. If necessary, remove and clean the orifice plate",Checkbox,,,Yes
+Page 5 - PM Section,12,"10. If necessary, clean the front end of Q0",Checkbox,,,Yes
+Page 5 - PM Section,13,11. Replace the air filter,Checkbox,,,Yes
+Page 5 - PM Section,14,12. Replace the roughing pumps oil,Checkbox,,,Yes
+Page 5 - PM Section,15,13. Inspect the oil return systems and if necessary replace the oil filter,Checkbox,,,Yes
+Page 5 - PM Section,16,"14. If applicable, perform PM on Peak Scientific gas generator",Checkbox,,,Yes
+Page 5 - PM Section,17,15. Reinstall all covers and pump down,Checkbox,,,Yes
+Page 5 - PM Section,18,16. Re-check operation of the instrument cooling fans,Checkbox,,,Yes
+Page 5 - PM Section,19,"17. If necessary, perform Turbo V ion source maintenance",Checkbox,,,Yes
+Page 5 - PM Section,20,"18. Clear computer temp files (Start/Search/Files and Folders -> *.tmp -> Local Hard Drive (C), (D) -> Search now -> Edit/Select All/Files/Delete/Empty Recycle Bin)",Checkbox,,,Yes
+Page 6 - Gas & Vacuum Pressure,1,PERFORMANCE VERIFICATION AND DATA LOG,Static text (label only - not fillable),,,
+Page 6 - Gas & Vacuum Pressure,2,1.0  GAS PRESSURE. Low Gas 1 / Gas 2 pressure can affect turbo spray and sensitivity. Source Exhaust pressure above 60 psi can cause exhaust valve failures.,Static text (label only - not fillable),,,
+Page 6 - Gas & Vacuum Pressure,3,"Gas 1 / Gas 2 pressure, psi  (spec 100 - 105)",Number (decimal),1,,Yes
+Page 6 - Gas & Vacuum Pressure,4,"Curtain / CAD Gas pressure, psi  (spec 60)",Number (decimal),1,,Yes
+Page 6 - Gas & Vacuum Pressure,5,"Source Exhaust Supply pressure, psi  (spec 55 - 60)",Number (decimal),1,,Yes
+Page 6 - Gas & Vacuum Pressure,6,2.0  VACUUM PRESSURE. Use Analyst software to set CAD gas values.,Static text (label only - not fillable),,,
+Page 6 - Gas & Vacuum Pressure,7,Guideline:  CAD = 0  ->  <= 0.8x10-5 torr (0.08 V),Static text (label only - not fillable),,,
+Page 6 - Gas & Vacuum Pressure,8,"Recorded vacuum pressure, CAD = 0",Text,,,Yes
+Page 6 - Gas & Vacuum Pressure,9,Guideline:  CAD = 12  ->  <= 5.5x10-5 torr (+/- 0.3x10-5),Static text (label only - not fillable),,,
+Page 6 - Gas & Vacuum Pressure,10,"Recorded vacuum pressure, CAD = 12",Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,1,3.0  POSITIVE ION MODE TEST (10 SCANS MCA) - Printouts required. Use 50:1 diluted Standard PPG (2x10^6M). See Appendix A.,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,2,Q1 - m/z 906.673,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,3,Q1 m/z 906.673 Intensity  (spec >= 2.0x10^7),Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,4,Q1 m/z 906.673 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 7 - Positive & Negative Ion Mode,5,Q1 - m/z 2242.6,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,6,Q1 m/z 2242.6 Intensity  (spec >= 1.0x10^6),Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,7,Q1 m/z 2242.6 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 7 - Positive & Negative Ion Mode,8,Q3 - m/z 906.673,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,9,Q3 m/z 906.673 Intensity  (spec >= 2.0x10^7),Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,10,Q3 m/z 906.673 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 7 - Positive & Negative Ion Mode,11,Q3 - m/z 2242.6,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,12,Q3 m/z 2242.6 Intensity  (spec >= 8.0x10^5),Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,13,Q3 m/z 2242.6 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 7 - Positive & Negative Ion Mode,14,4.0  NEGATIVE ION MODE TEST (10 SCANS MCA) - Printouts required. Use undiluted PPG 3000 (3x10^4M). See Appendix A.,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,15,Q1 - m/z 933.636,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,16,Q1 m/z 933.636 Intensity  (spec >= 1.1x10^7),Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,17,Q1 m/z 933.636 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 7 - Positive & Negative Ion Mode,18,Q1 - m/z 2037.4,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,19,Q1 m/z 2037.4 Intensity  (spec >= 1.0x10^6),Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,20,Q1 m/z 2037.4 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 7 - Positive & Negative Ion Mode,21,Q3 - m/z 933.636,Static text (label only - not fillable),,,
+Page 7 - Positive & Negative Ion Mode,22,Q3 m/z 933.636 Intensity  (spec >= 9.0x10^6),Text,,,Yes
+Page 7 - Positive & Negative Ion Mode,23,Q3 m/z 933.636 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+Page 7 - Positive & Negative Ion Mode,24,Q3 - m/z 2037.4 is N/A per the procedure,Static text (label only - not fillable),,,
+"Page 8 - Reserpine, Spectra & Comments",1,5.0  RESERPINE MS/MS TEST (10 SCANS MCA),Static text (label only - not fillable),,,
+"Page 8 - Reserpine, Spectra & Comments",2,Use diluted reserpine 6:1 (0.16 pmol/ul). Printouts required.,Static text (label only - not fillable),,,
+"Page 8 - Reserpine, Spectra & Comments",3,Attenuated m/z 609.3,Static text (label only - not fillable),,,
+"Page 8 - Reserpine, Spectra & Comments",4,Attenuated m/z 609.3 Intensity  (spec record),Text,,,Yes
+"Page 8 - Reserpine, Spectra & Comments",5,Attenuated m/z 609.3 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+"Page 8 - Reserpine, Spectra & Comments",6,m/z 195.0,Static text (label only - not fillable),,,
+"Page 8 - Reserpine, Spectra & Comments",7,m/z 195.0 Intensity  (spec record),Text,,,Yes
+"Page 8 - Reserpine, Spectra & Comments",8,m/z 195.0 FWHM amu  (spec 0.6 - 0.8),Number (decimal),2,,Yes
+"Page 8 - Reserpine, Spectra & Comments",9,MS/MS Transmission Efficiency %  (m/z 195.0 / attenuated m/z 609.3) x 100  (spec >= 10.0),Number (decimal),2,,Yes
+"Page 8 - Reserpine, Spectra & Comments",10,6.0  PRINT AND ATTACH TESTS SPECTRA RESULTS,Checkbox,,,Yes
+"Page 8 - Reserpine, Spectra & Comments",11,Comments or Observations,Text,,,Yes
+"Page 8 - Reserpine, Spectra & Comments",12,Additional comments (sketch/annotate),Sketch,,,Yes
