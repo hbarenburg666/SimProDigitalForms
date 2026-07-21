@@ -299,11 +299,43 @@ def main() -> int:
     out.write_text(json.dumps(payload, indent=2), encoding="utf-8")
     print(f"  payload -> {out} ({out.stat().st_size:,} bytes)")
 
-    if "--create" not in sys.argv:
-        print("\n  DRY RUN — nothing sent. Re-run with --create to POST /forms.")
+    # --into <form_id> writes the generated sections into an EXISTING form,
+    # rather than creating a new one. Intended for a "Basic - build from
+    # scratch" form: PDF uploaded, zero sections. A form with no sections has
+    # no section ids for the server to destroy, so the PDF binding may survive
+    # a write that would otherwise break an autobuilt form.
+    into = None
+    if "--into" in sys.argv:
+        into = sys.argv[sys.argv.index("--into") + 1]
+
+    if "--create" not in sys.argv and not into:
+        print("\n  DRY RUN — nothing sent. Add --create (new form) or "
+              "--into <form_id> (existing).")
         return 0
 
     client = connect()
+
+    if into:
+        existing = client.get_form(into, fmt="nested")
+        n = len(existing.get("sections", []))
+        print(f"\n  target: {existing['name']!r} (status {existing['status']}, "
+              f"{n} existing sections)")
+        if n:
+            print("  REFUSING: target already has sections. Writing would destroy "
+                  "their ids and with them any PDF page binding.")
+            return 1
+        merged = dict(existing)
+        merged["sections"] = payload["sections"]
+        merged["status"] = "pending" if existing["status"] != "pending" else "new"
+        print(f"  status transition: {existing['status']} -> {merged['status']}")
+        print(f"\n=== POST /forms/{into} ===")
+        client.update_form(into, merged)
+        check = client.get_form(into, fmt="nested")
+        got = [e for s in check["sections"] for sh in s["sheets"] for e in sh["entries"]]
+        print(f"  read back: {len(check['sections'])} sections, {len(got)} entries, "
+              f"status {check['status']}")
+        return 0
+
     print("\n=== POST /forms ===")
     result = client.create_form(payload)
     print(f"  created id: {result.get('id')}  status: {result.get('status')}")
