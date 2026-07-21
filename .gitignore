@@ -34,3 +34,7 @@ minmax_result_*.json
 api4000_payload.json
 maskfix_payload_*.json
 baseline_*.json
+sample_simpro_generated.pdf
+build_sheet.html
+build_sheet.csv
+api4000_pro_payload.json
