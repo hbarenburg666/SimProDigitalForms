@@ -251,6 +251,14 @@ SECTIONS = [
 ]
 
 
+# Simpro already starts each section on a fresh page in the generated PDF, so
+# explicit breaks are redundant. Worse, setting the flag on BOTH a sheet and its
+# last entry fires the break twice and emits a blank page — that is what turned
+# a 14-section form into a 17-page PDF. Leave this off unless a specific block
+# genuinely needs to be forced apart.
+PAGE_BREAKS = False
+
+
 def build_entry(spec: dict, position: int, page_break: bool) -> dict:
     return {
         "guid": guid(),
@@ -279,9 +287,10 @@ def build_entry(spec: dict, position: int, page_break: bool) -> dict:
 
 def build_sections() -> list[dict]:
     out = []
-    for i, (title, entries, page_break) in enumerate(SECTIONS):
-        built = [build_entry(e, j, page_break and j == len(entries) - 1)
-                 for j, e in enumerate(entries)]
+    for i, (title, entries, wants_break) in enumerate(SECTIONS):
+        page_break = PAGE_BREAKS and wants_break
+        # Never on the entry as well as the sheet — that double-fires the break.
+        built = [build_entry(e, j, False) for j, e in enumerate(entries)]
         out.append({
             "type": "section",
             "description": title,
@@ -336,8 +345,27 @@ def main() -> int:
     (HERE / "api4000_pro_payload.json").write_text(
         json.dumps(sections, indent=2), encoding="utf-8")
 
+    if "--create" in sys.argv:
+        # A standalone form needs no PDF upload, so it can be created outright.
+        # POST /forms accepts status "new", which keeps the form editable —
+        # unlike an update, which forces a transition into pending.
+        name = sys.argv[sys.argv.index("--create") + 1]
+        client = connect()
+        payload = {
+            "type": "form", "name": name, "status": "new",
+            "description": "Generated from 1_1 API 4000 PM final.pdf.",
+            "email_options": 2, "view_pdf_mobile": True, "web_form": False,
+            "workflow_enabled": False, "dispatch_enabled": False,
+            "sheet_style_enabled": True, "sections": sections,
+        }
+        result = client.create_form(payload)
+        print(f"\n  created: {result.get('id')}  {name!r}  "
+              f"status {result.get('status')}")
+        return 0
+
     if "--into" not in sys.argv:
-        print("\n  DRY RUN — nothing sent. Add --into <form_id>.")
+        print("\n  DRY RUN — nothing sent. Add --into <form_id> or "
+              "--create <name>.")
         return 0
 
     form_id = sys.argv[sys.argv.index("--into") + 1]
