@@ -38,6 +38,25 @@ class SimproError(RuntimeError):
     pass
 
 
+def http(method: str, url: str, **kwargs: Any) -> requests.Response:
+    """Raw HTTP escape hatch — GET only, and that is not negotiable.
+
+    On 2026-07-21 a verb-support probe sent `DELETE /forms/{id}` expecting a
+    405. The API answered 200 and soft-deleted a form the user had just
+    uploaded; there is no restore endpoint. The probe bypassed SimproClient
+    precisely because SimproClient refuses non-GET/POST verbs.
+
+    Never probe for verb support against a real resource. If a verb's existence
+    must be known, ask the user to confirm on something disposable first.
+    """
+    if method.upper() != "GET":
+        raise SimproError(
+            f"Refusing raw {method.upper()}. Only GET is permitted outside "
+            "SimproClient. Destructive verbs are never probed against live data."
+        )
+    return requests.request("GET", url, timeout=60, **kwargs)
+
+
 def _redact(text: str) -> str:
     """Strip anything secret-looking out of text before it can reach a log."""
     for key in ("SIMPRO_CLIENT_SECRET", "SIMPRO_CLIENT_ID"):
