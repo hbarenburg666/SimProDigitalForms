@@ -51,10 +51,22 @@ def guid() -> str:
     return hashlib.sha1(uuid.uuid4().bytes).hexdigest().upper()
 
 
-def E(label, t=TEXT, mask=None, required=False, report=None, pdf=SHOW):
-    """One entry. `report` is the short label printed in the PDF."""
+def E(label, t=TEXT, mask=None, required=False, report=None, pdf=SHOW,
+      auto_name=False, auto_file=False, auto_subj=False, auto_body=False):
+    """One entry. `report` is the short label printed in the PDF.
+
+    The auto_* flags mirror how the tenant's mature forms (Part Request,
+    Order Confirmation, Sciex 4500 IQ-OQ) tag their "Job ID" field:
+      auto_name  -> names the submission from this field's value, instead of
+                    the "No.: 00000" placeholder currently in the footer
+      auto_file  -> names the emailed PDF file from this value
+      auto_subj  -> builds the email subject from it
+      auto_body  -> includes the field in the email body (set on several)
+    """
     return {"label": label, "t": t, "mask": mask, "required": required,
-            "report": report, "pdf": pdf}
+            "report": report, "pdf": pdf, "auto_name": auto_name,
+            "auto_file": auto_file, "auto_subj": auto_subj,
+            "auto_body": auto_body}
 
 
 def note(text):
@@ -155,17 +167,24 @@ SECTIONS = [
     ("Instrument Identification", [
         note("INNOVATIVE LAB SERVICES LLC   -   API 4000 LC/MS/MS SYSTEM   -   "
              "PLANNED MAINTENANCE PROCEDURE   (Doc 1_1, Rev 1.1)"),
-        E("Instrument Serial #", TEXT, required=True, report="Instrument Serial #"),
+        # This field names the submission, the emailed PDF file and the email
+        # subject — so a completed PM files itself under the instrument serial
+        # instead of the "No.: 00000" placeholder.
+        E("Instrument Serial #", TEXT, required=True, report="Instrument Serial #",
+          auto_name=True, auto_file=True, auto_subj=True, auto_body=True),
         E("Instrument Name / INV #", TEXT, required=True,
-          report="Instrument Name / INV #"),
+          report="Instrument Name / INV #", auto_body=True),
     ], True),
 
     ("Customer Information", [
-        E("Customer Site", TEXT, required=True, report="Customer Site"),
+        E("Customer Site", TEXT, required=True, report="Customer Site",
+          auto_body=True),
         E("Serial Number", TEXT, required=True, report="Serial Number"),
-        E("Customer Name", TEXT, required=True, report="Customer Name"),
-        E("Service Engineer", TEXT, required=True, report="Service Engineer"),
-        E("Date", DATE, required=True, report="Date"),
+        E("Customer Name", TEXT, required=True, report="Customer Name",
+          auto_body=True),
+        E("Service Engineer", TEXT, required=True, report="Service Engineer",
+          auto_body=True),
+        E("Date", DATE, required=True, report="Date", auto_body=True),
         helper("All PM tests are run using Chemical Kit P/N 4406127. All Pre and "
                "Post tests use the Standard Turbo V Source. Printed copies of all "
                "test runs, method files and calibration runs are filed in the "
@@ -278,6 +297,10 @@ def build_entry(spec: dict, position: int, page_break: bool) -> dict:
         "report_label": spec["report"],
         "receipt_label": spec["report"],
         "export_label": spec["report"],
+        "auto_submission_name": spec["auto_name"],
+        "auto_email_filename": spec["auto_file"],
+        "auto_email_subject": spec["auto_subj"],
+        "auto_email_body": spec["auto_body"],
         "inserts_page_break_at_the_end": page_break,
         "entry_values": [],
         "operations": [],
