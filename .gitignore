@@ -25,3 +25,7 @@ Thumbs.db
 .idea/
 copy_payload.json
 copy_result.json
+
+# Source QMS documents — company controlled, not for GitHub
+pdfs/
+dump_*.json
