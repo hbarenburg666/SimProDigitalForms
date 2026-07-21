@@ -1,0 +1,25 @@
+# Secrets — NEVER commit
+.env
+*.env
+!.env.example
+
+# Token cache (contains bearer tokens)
+.token_cache.json
+
+# Python
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Form dumps may contain company data — opt in deliberately
+form_dump.json
+dumps/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
