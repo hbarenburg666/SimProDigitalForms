@@ -23,8 +23,10 @@ Learned the hard way about POST /forms/{id}:
 
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
+import uuid
 from pathlib import Path
 
 from simpro_api import connect
@@ -68,8 +70,19 @@ TEST_ENTRIES = [
 ]
 
 
+def new_guid() -> str:
+    """40-char uppercase hex, matching the format of server-created entries.
+
+    Entries created without a guid all share `null`, and the app keys field
+    identity by guid — so a value typed into one null-guid field propagates to
+    every other one. Every entry we create MUST have a unique guid.
+    """
+    return hashlib.sha1(uuid.uuid4().bytes).hexdigest().upper()
+
+
 def build_entry(spec: dict, position: int) -> dict:
     return {
+        "guid": new_guid(),
         "type": "entry",
         "label": spec["label"],
         "original_type_id": DECIMAL,
@@ -127,9 +140,11 @@ def main() -> int:
     print(f"  existing sections: {len(form.get('sections', []))}")
 
     payload = dict(form)
-    payload["sections"] = list(form.get("sections", [])) + [
-        build_section(len(form.get("sections", [])))
-    ]
+    # Drop any previous probe section so re-runs replace rather than duplicate.
+    kept = [s for s in form.get("sections", []) if s.get("description") != "Min/Max Probe"]
+    if len(kept) != len(form.get("sections", [])):
+        print(f"  replacing {len(form['sections']) - len(kept)} existing probe section(s)")
+    payload["sections"] = kept + [build_section(len(kept))]
     # `status` must be present AND must differ from the current status, or the
     # API rejects the update. Only new/pending are permitted (see
     # SimproClient.ALLOWED_WRITE_STATUSES), so ping-pong between them.
