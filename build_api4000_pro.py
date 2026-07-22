@@ -394,10 +394,16 @@ def main() -> int:
     form_id = sys.argv[sys.argv.index("--into") + 1]
     client = connect()
     existing = client.get_form(form_id, fmt="nested")
-    if existing.get("sections"):
-        print(f"\n  REFUSING: {existing['name']!r} already has "
-              f"{len(existing['sections'])} section(s). Writing would destroy "
-              "their ids and any PDF binding.")
+    # A brand-new blank form ships with one empty "Default Screen" section and
+    # no PDF. That is safe to replace. Refuse only if a section actually holds
+    # entries — that signals real content (or an autobuilt PDF overlay whose
+    # page binding the write would destroy).
+    populated = [s for s in existing.get("sections", [])
+                 if any(sh.get("entries") for sh in s.get("sheets", []))]
+    if populated:
+        print(f"\n  REFUSING: {existing['name']!r} has {len(populated)} "
+              "section(s) containing entries. Writing would destroy their ids "
+              "and any PDF binding.")
         return 1
 
     payload = dict(existing)
