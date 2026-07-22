@@ -36,23 +36,27 @@ SRC = HERE / "pdfs" / "1_1 API 4000 PM final.pdf"
 #   anchor: word(s) to locate on that page
 #   dx, dy: offset in points from the anchor's baseline-left (dy up is positive)
 #   which:  if the anchor text appears more than once, which occurrence (0-based)
+# dx clears the colon that follows each label; dy=+3 lifts the value so it
+# rests ON the underscore line instead of striking through it. Verified against
+# a render.
 FIELD_MAP = [
-    # Page 1 — identification. Values go on the ____ line after the colon.
-    ("Instrument Serial #",      dict(page=0, anchor="Instrument Serial", dx=118, dy=0)),
-    ("Instrument Name / INV #",  dict(page=0, anchor="Instrument Name",   dx=118, dy=0)),
-    # Page 2 — customer block.
-    ("Customer Site",            dict(page=1, anchor="Customer Site",     dx=78,  dy=0)),
-    ("Serial Number",            dict(page=1, anchor="Serial Number",     dx=82,  dy=0)),
-    ("Customer Name",            dict(page=1, anchor="Customer Name",     dx=90,  dy=0)),
-    ("Service Engineer",         dict(page=1, anchor="Service Engineer",  dx=95,  dy=0, which=0)),
-    ("Date",                     dict(page=1, anchor="Date:",             dx=34,  dy=0)),
+    # Page 1 — identification. Anchor right edge is before the "# :", so dx
+    # steps past that to the start of the blank line.
+    ("Instrument Serial #",      dict(page=0, anchor="Instrument Serial", dx=42, dy=3)),
+    ("Instrument Name / INV #",  dict(page=0, anchor="Instrument Name/INV", dx=24, dy=3)),
+    # Page 2 — customer block. Value starts just after the colon.
+    ("Customer Site",            dict(page=1, anchor="Customer Site",     dx=14, dy=3)),
+    ("Serial Number",            dict(page=1, anchor="Serial Number",     dx=14, dy=3)),
+    ("Customer Name",            dict(page=1, anchor="Customer Name",     dx=14, dy=3)),
+    ("Service Engineer",         dict(page=1, anchor="Service Engineer",  dx=14, dy=3, which=0)),
+    ("Date",                     dict(page=1, anchor="Date:",             dx=8,  dy=3)),
     # Page 3 — Pre-PM vacuum + first positive-ion readings.
-    ("Pre-PM Vacuum pressure at CAD = 0",  dict(page=2, anchor="CAD = 0", dx=120, dy=0, which=1)),
+    ("Pre-PM Vacuum pressure at CAD = 0",  dict(page=2, anchor="CAD = 0", dx=120, dy=3, which=1)),
     # Page 5 — PM checklist voltages.
-    ("Record CEM voltage",       dict(page=4, anchor="Record CEM",        dx=150, dy=0)),
-    ("Record AC voltage",        dict(page=4, anchor="Record AC",         dx=150, dy=0)),
+    ("Record CEM voltage",       dict(page=4, anchor="Record CEM",        dx=150, dy=3)),
+    ("Record AC voltage",        dict(page=4, anchor="Record AC",         dx=150, dy=3)),
     # Page 6 — gas pressures.
-    ("Curtain / CAD Gas pressure", dict(page=5, anchor="Curtain / CAD Gas", dx=120, dy=0)),
+    ("Curtain / CAD Gas pressure", dict(page=5, anchor="Curtain / CAD Gas", dx=120, dy=3)),
     # Page 8 — comments.
     ("Comments or Observations", dict(page=7, anchor="Comments or Observations", dx=0, dy=-16)),
 ]
@@ -158,15 +162,17 @@ def main() -> int:
             w = float(page.mediabox.width)
             h = float(page.mediabox.height)
             c = canvas.Canvas(buf, pagesize=(w, h))
-            c.setFont("Helvetica-Bold", 10)
+            c.setFillColorRGB(0.05, 0.05, 0.45)  # dark blue reads as filled-in
             for x, y, text in overlays[i]:
+                c.setFont("Helvetica", 11 if text != "X" else 12)
                 c.drawString(x, y, text)
             c.save()
             buf.seek(0)
             page.merge_page(PdfReader(buf).pages[0])
         writer.add_page(page)
 
-    out = HERE / "pdfs" / f"FILLED_1_1_API_4000_{submission_id}.pdf"
+    stamp = next((a for a in sys.argv[2:] if not a.startswith("-")), "")
+    out = HERE / "pdfs" / f"FILLED_1_1_API_4000_{submission_id}{('_' + stamp) if stamp else ''}.pdf"
     with out.open("wb") as fh:
         writer.write(fh)
     print(f"  placed {placed} values")
