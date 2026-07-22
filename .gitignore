@@ -42,3 +42,8 @@ submission_full.json
 submission_draft5.pdf
 FILLED_*.pdf
 _render*.png
+_logo_*.png
+_cmp_*.png
+_report_*.png
+REPORT_*.pdf
+*.pdf
